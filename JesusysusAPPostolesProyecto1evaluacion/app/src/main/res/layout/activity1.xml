@@ -30,7 +30,7 @@
             android:backgroundTint="@color/colorBoton"
             android:maxLength="50"
             android:minHeight="48dp"
-            android:text='"PlaceHolder"'
+            android:text='"PlaceHolderr"'
             android:textAlignment="center"
             android:textColor="@color/colorTexto"
             android:textColorHint="@color/colorTexto"
