@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Activity1 extends AppCompatActivity {
 
     private Button btn;
-    private TextView txt;
+    private TextView txtContador;
     private static final String PREFS_NAME = "AppPreferences";
     private static final String ACCESS_COUNT_KEY = "contador_accesos";
 
@@ -21,7 +21,7 @@ public class Activity1 extends AppCompatActivity {
         setContentView(R.layout.activity1);
 
         // Inicializamos el campo de texto
-        txt = findViewById(R.id.campoDeTexto);
+        txtContador = findViewById(R.id.contadorVecesIniciada);
 
         // Obtenemos SharedPreferences
         SharedPreferences preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
@@ -33,7 +33,7 @@ public class Activity1 extends AppCompatActivity {
         accessCount++;
 
         // Mostramos el valor en el TextView (REQ-011 y REQ-013)
-        txt.setText("Número de accesos a la app: " + accessCount);
+        txtContador.setText("Número de accesos a la app: " + accessCount);
 
         // Guardamos el nuevo valor en SharedPreferences (REQ-016 y REQ-020)
         SharedPreferences.Editor editor = preferences.edit();
