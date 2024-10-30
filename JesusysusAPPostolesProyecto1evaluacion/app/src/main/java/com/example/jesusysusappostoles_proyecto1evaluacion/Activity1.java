@@ -1,5 +1,7 @@
 package com.example.jesusysusappostoles_proyecto1evaluacion;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -10,38 +12,49 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Activity1 extends AppCompatActivity {
-    // Hace falta para el contador de accesos
-    private static final String PREFS_NAME = "AppPrefs";
-    private static final String COUNTER_KEY = "LaunchCounter";
-    private int launchCounter;
-    private Button btn;
-    private TextView txtAccesos;
 
+    private Button btn;
+    private TextView txt;
+    private static final String PREFS_NAME = "AppPr-eferences";
+    private static final String ACCESS_COUNT_KEY = "contador_accesos";
+    private Button buscar;
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity1);
-        // Referencia al TextView en tu layout para mostrar el contador
-        txtAccesos = findViewById(R.id.counterTextView);
 
-        // Accede a SharedPreferences
+        // Inicializamos el campo de texto
+        txt = findViewById(R.id.counterTextView);
+
+        // Obtenemos SharedPreferences
         SharedPreferences preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 
-        // Lee el contador de lanzamientos
-        launchCounter = preferences.getInt(COUNTER_KEY, -1);
+        // Cargamos el valor almacenado del contador, comenzando en 0 si es la primera vez
+        int accessCount = preferences.getInt(ACCESS_COUNT_KEY, -1); // Cambiado a 0
 
-        // Incrementa el contador
-        launchCounter++;
+        // Incrementamos el contador
+        accessCount++;
 
-        // Muestra el contador actualizado en el TextView
-        txtAccesos.setText("Veces accedidas: " + launchCounter);
+        // Mostramos el valor en el TextView (REQ-011 y REQ-013)
+        txt.setText("Número de accesos a la app: " + accessCount);
 
-        // Guarda el contador actualizado en SharedPreferences
+        // Guardamos el nuevo valor en SharedPreferences (REQ-016 y REQ-020)
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt(COUNTER_KEY, launchCounter);
-        editor.apply(); // Aplica los cambios
+        editor.putInt(ACCESS_COUNT_KEY, accessCount); // Guardamos el nuevo valor
+        editor.apply(); // Aplicamos los cambios
 
+        buscar= findViewById(R.id.conexionInternet);
+        buscar.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(Activity1.this,SearchActivity.class);
+                        startActivity(i);
+                    }
+                }
+
+        );
     }
-
-
 }
