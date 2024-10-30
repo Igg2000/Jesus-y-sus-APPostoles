@@ -7,24 +7,28 @@
 
     <EditText
         android:id="@+id/cityEditText"
-        android:layout_width="299dp"
-        android:layout_height="53dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="364dp"
+        android:layout_width="278dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/rounded_edittext"
         android:hint="Ingrese el nombre de la ciudad"
         android:inputType="text"
         android:textAlignment="center"
         android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@id/searchButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/searchButton"
-        android:layout_width="260dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="88dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:text="Buscar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cityEditText" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/cityEditText"
+        app:layout_constraintTop_toTopOf="@id/cityEditText" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
