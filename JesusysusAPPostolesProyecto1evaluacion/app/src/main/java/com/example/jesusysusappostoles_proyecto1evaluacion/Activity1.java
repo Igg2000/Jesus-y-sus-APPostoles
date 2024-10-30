@@ -26,7 +26,7 @@ public class Activity1 extends AppCompatActivity {
         setContentView(R.layout.activity1);
 
         // Inicializamos el campo de texto
-        txt = findViewById(R.id.counterTextView);
+        txt = findViewById(R.id.contadorVecesIniciada);
 
         // Obtenemos SharedPreferences
         SharedPreferences preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
