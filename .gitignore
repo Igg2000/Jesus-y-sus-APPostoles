@@ -1,11 +1,33 @@
+# Gradle files
+.gradle/
+build/
 
-JesusysusAPPostolesProyecto1evaluacion/.idea/vcs.xml
-JesusysusAPPostolesProyecto1evaluacion/.idea/misc.xml
-.idea/vcs.xml
-.idea/modules.xml
-.idea/misc.xml
-.idea/Jesus-y-sus-APPostoles.iml
-JesusysusAPPostolesProyecto1evaluacion/.idea/misc.xml
-JesusysusAPPostolesProyecto1evaluacion/.idea/misc.xml
-.idea/workspace.xml
-.idea/caches/deviceStreaming.xml
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Log/OS Files
+*.log
+
+# Android Studio generated files and folders
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+output.json
+
+# IntelliJ
+*.iml
+.idea/
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
+
+# Keystore files
+*.jks
+*.keystore
+
+# Google Services (e.g. APIs or Firebase)
+google-services.json
+
+# Android Profiling
+*.hprof
