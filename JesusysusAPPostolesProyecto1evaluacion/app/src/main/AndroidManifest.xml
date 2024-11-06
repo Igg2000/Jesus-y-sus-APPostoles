@@ -25,9 +25,10 @@
         </activity>
 
 
-        <activity android:name=".SearchActivity" android:exported="true">
+        <activity android:name=".SearchActivity" android:exported="true"/>
+        <activity android:name=".GiroscopioActivity" android:exported="true"/>
+        <activity android:name=".CamaraActivity" android:exported="true"/>
 
-        </activity>
     </application>
 
 

@@ -18,6 +18,8 @@ public class Activity1 extends AppCompatActivity {
     private static final String PREFS_NAME = "AppPr-eferences";
     private static final String ACCESS_COUNT_KEY = "contador_accesos";
     private Button buscar;
+    private Button giroscopio;
+    private Button camara;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -54,7 +56,27 @@ public class Activity1 extends AppCompatActivity {
                         startActivity(i);
                     }
                 }
-
         );
+        giroscopio = findViewById(R.id.button2);
+        giroscopio.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(Activity1.this,GiroscopioActivity.class);
+                        startActivity(i);
+                    }
+                }
+        );
+        camara = findViewById(R.id.button3);
+        camara.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(Activity1.this,CamaraActivity.class);
+                        startActivity(i);
+                    }
+                }
+        );
+
     }
 }
