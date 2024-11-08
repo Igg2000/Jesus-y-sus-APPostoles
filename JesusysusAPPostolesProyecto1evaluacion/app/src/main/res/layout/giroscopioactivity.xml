@@ -80,6 +80,7 @@
                 android:layout_height="179dp"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
+                android:layout_gravity="left|center_vertical"
                 android:paddingLeft="10dp"
                 android:src="@drawable/imagen_movil_giroscopio" />
 
