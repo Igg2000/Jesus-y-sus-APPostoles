@@ -53,33 +53,31 @@ public class SearchActivity extends AppCompatActivity {  // Extiende AppCompatAc
         });
     }
     private void performSPARQLQuery(String cityName) throws UnsupportedEncodingException {
-
         String encodedCityName = URLEncoder.encode(cityName, "UTF-8");
-        String query = String.format("SELECT ?city ?cityLabel ?population ?latitude ?longitude WHERE { " +
-                "?city wdt:P31 wd:Q515; " +
-                "rdfs:label \"%s\"@es. " +
-                "OPTIONAL { ?city wdt:P1082 ?population. } " +  // Hacer opcional la población
-                "OPTIONAL { " +
-                "?city wdt:P625 ?location. " +
-                "BIND(geof:latitude(?location) AS ?latitude). " +
-                "BIND(geof:longitude(?location) AS ?longitude). " +
-                "} " +
-                "SERVICE wikibase:label { bd:serviceParam wikibase:language \"es,en\". } " +  // Intenta obtener el label en español o inglés
-                "}", encodedCityName);
-
+        String query = String.format(
+                "SELECT ?lugar ?lugarLabel ?population ?latitude ?longitude WHERE { " +
+                        "?lugar rdfs:label \"%s\"@es; " +  // Usar el nombre exacto en español
+                        "wdt:P1082 ?population; " +       // Población
+                        "wdt:P625 ?location. " +          // Coordenadas (ubicación)
+                        "BIND(geof:latitude(?location) AS ?latitude). " +
+                        "BIND(geof:longitude(?location) AS ?longitude). " +
+                        "SERVICE wikibase:label { bd:serviceParam wikibase:language \"es\". } " + // Obtener label en español
+                        "} " +
+                        "LIMIT 1",
+                encodedCityName
+        );
 
         String url = "https://query.wikidata.org/sparql?query=" + URLEncoder.encode(query, "UTF-8") + "&format=json";
 
-        Log.d("SearchActivity", "URL de la consulta: " + url);  // Imprimir URL
-        Log.d("SearchActivity", "Consulta SPARQL: " + query);  // Imprimir consulta
+        Log.d("SearchActivity", "URL de la consulta: " + url);
+        Log.d("SearchActivity", "Consulta SPARQL: " + query);
 
         Request request = new Request.Builder().url(url).build();
 
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("SearchActivity", "Error en la solicitud"+ e, e);
-                Log.d("SearchActivity", "URL de la consulta: " + url);
+                Log.e("SearchActivity", "Error en la solicitud: " + e, e);
                 runOnUiThread(() -> Toast.makeText(SearchActivity.this, "Error en la conexión.", Toast.LENGTH_SHORT).show());
             }
 
@@ -90,37 +88,37 @@ public class SearchActivity extends AppCompatActivity {  // Extiende AppCompatAc
                 }
 
                 String responseData = response.body().string();
-                // Aquí puedes analizar el JSON y extraer la información necesaria.
-
-                // Extrae la información y muestra en la interfaz.
-
                 Log.d("SearchActivity", "Respuesta del servidor: " + responseData);
+
                 try {
                     JSONObject jsonObject = new JSONObject(responseData);
                     JSONArray results = jsonObject.getJSONObject("results").getJSONArray("bindings");
 
                     if (results.length() > 0) {
-                        String city = results.getJSONObject(0).getJSONObject("city").getString("value");
-                        String population = results.getJSONObject(0).getJSONObject("population").getString("value");
-                        String latitude = results.getJSONObject(0).getJSONObject("latitude").getString("value");
-                        String longitude = results.getJSONObject(0).getJSONObject("longitude").getString("value");
+                        JSONObject firstResult = results.getJSONObject(0);
+
+                        String cityName = firstResult.getJSONObject("lugarLabel").getString("value");  // Nombre de la ciudad
+                        String population = firstResult.has("population") ? firstResult.getJSONObject("population").getString("value") : "No disponible";
+                        String latitude = firstResult.has("latitude") ? firstResult.getJSONObject("latitude").getString("value") : "No disponible";
+                        String longitude = firstResult.has("longitude") ? firstResult.getJSONObject("longitude").getString("value") : "No disponible";
 
                         runOnUiThread(() -> {
                             // Mostrar la información al usuario
-                            showResult(city, population, latitude, longitude);
+                            showResult(cityName, population, latitude, longitude);
                         });
                     } else {
                         runOnUiThread(() -> showErrorDialog("Ciudad no encontrada."));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    runOnUiThread(() -> showErrorDialog("Error al procesar los datos."));
                 }
             }
         });
     }
 
-    private void showResult(String city, String population, String latitude, String longitude) {
-        String resultMessage = "Ciudad: " + city + "\n" +
+    private void showResult(String encodedCityName, String population, String latitude, String longitude) {
+        String resultMessage = "Ciudad: " + encodedCityName + "\n" +
                 "Población: " + population + "\n" +
                 "Latitud: " + latitude + "\n" +
                 "Longitud: " + longitude;
