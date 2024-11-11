@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,8 +19,9 @@ public class Activity1 extends AppCompatActivity {
     private static final String PREFS_NAME = "AppPr-eferences";
     private static final String ACCESS_COUNT_KEY = "contador_accesos";
     private Button buscar;
+
     private Button giroscopio;
-    private Button camara;
+    private Button cameraButton;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -67,16 +69,11 @@ public class Activity1 extends AppCompatActivity {
                     }
                 }
         );
-        camara = findViewById(R.id.button3);
-        camara.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent i = new Intent(Activity1.this,CamaraActivity.class);
-                        startActivity(i);
-                    }
-                }
-        );
-
+        
+        Button cameraButton = findViewById(R.id.camera_button);
+        cameraButton.setOnClickListener(view -> {
+            Intent intent = new Intent(Activity1.this, CameraActivity.class);
+            startActivity(intent);
+        });
     }
 }

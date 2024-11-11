@@ -85,7 +85,7 @@
                 app:iconTint="@color/colorIcono" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/camera_button"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_rowWeight="1"
