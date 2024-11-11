@@ -18,10 +18,11 @@ public class Activity1 extends AppCompatActivity {
     private TextView txt;
     private static final String PREFS_NAME = "AppPr-eferences";
     private static final String ACCESS_COUNT_KEY = "contador_accesos";
-    private Button buscar;
 
+    private Button buscar;
     private Button giroscopio;
     private Button cameraButton;
+    private Button galeria;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -70,10 +71,22 @@ public class Activity1 extends AppCompatActivity {
                 }
         );
         
-        Button cameraButton = findViewById(R.id.camera_button);
+        cameraButton = findViewById(R.id.camera_button);
         cameraButton.setOnClickListener(view -> {
             Intent intent = new Intent(Activity1.this, CameraActivity.class);
             startActivity(intent);
         });
+
+        galeria = findViewById(R.id.button4);
+        galeria.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(Activity1.this,GaleriaActivity.class);
+                        startActivity(i);
+                    }
+                }
+        );
+
     }
 }
