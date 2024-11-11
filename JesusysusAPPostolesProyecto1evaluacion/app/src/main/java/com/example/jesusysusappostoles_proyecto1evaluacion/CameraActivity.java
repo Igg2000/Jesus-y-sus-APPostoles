@@ -13,6 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -40,7 +42,7 @@ public class CameraActivity extends AppCompatActivity {
 
         saveButton.setOnClickListener(v -> {
             if (imageBitmap != null) {
-                saveImageAndReturn();
+                saveImageAndReturn2();
             } else {
                 Toast.makeText(this, "No hay imagen para guardar", Toast.LENGTH_SHORT).show();
             }
@@ -93,4 +95,28 @@ public class CameraActivity extends AppCompatActivity {
         // Finaliza esta actividad y regresa a MainActivity
         finish();
     }
+
+
+    //METODO PARA GUARDAR LA IMAGEN
+    private void saveImageAndReturn2() {
+        // Ruta en el almacenamiento interno específico de la aplicación
+        File directory = new File(getFilesDir(), "imagenes");
+        if (!directory.exists()) {
+            directory.mkdirs(); // Crea la carpeta si no existe
+        }
+
+        // Nombre y ubicación del archivo
+        File file = new File(directory, "imagen_capturada.jpg");
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            Toast.makeText(this, "Imagen guardada exitosamente en " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error al guardar la imagen", Toast.LENGTH_SHORT).show();
+        }
+
+        // Finaliza esta actividad y regresa a MainActivity
+        finish();
+    }
+
 }
