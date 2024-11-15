@@ -1,6 +1,8 @@
 package com.example.jesusysusappostoles_proyecto1evaluacion;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -9,9 +11,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.text.DecimalFormat;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class GiroscopioActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -26,8 +32,19 @@ public class GiroscopioActivity extends AppCompatActivity implements SensorEvent
         super.onCreate(savedInstanceState);
         setContentView(R.layout.giroscopioactivity); // Asegúrate de que este archivo XML exista
 
+
+        // Inicializar SensorManager y obtener el giroscopio
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+
+        // Verificar si el dispositivo tiene un giroscopio
+        if (gyroSensor == null) {
+            // Mostrar mensaje al usuario
+            Toast.makeText(this, "El dispositivo no tiene un giroscopio disponible.", Toast.LENGTH_LONG).show();
+            // Finalizar la actividad si no hay giroscopio
+            finish();
+            return;
+        }
 
         sensorManager.registerListener(this, gyroSensor, SensorManager.SENSOR_DELAY_NORMAL);
 
