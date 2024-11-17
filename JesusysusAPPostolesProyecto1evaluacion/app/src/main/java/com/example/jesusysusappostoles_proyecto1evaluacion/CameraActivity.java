@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -90,6 +93,8 @@ public class CameraActivity extends AppCompatActivity {
     }
 
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -109,24 +114,37 @@ public class CameraActivity extends AppCompatActivity {
             InputStream inputStream = getContentResolver().openInputStream(photoUri);
             imageBitmap = BitmapFactory.decodeStream(inputStream);  // Convertir URI a Bitmap
 
+            // Corregir la orientación de la imagen
+            imageBitmap = correctOrientation(imageBitmap, photoUri);
+
             // Crear el archivo en el almacenamiento interno de la app
-            // Obtener la fecha actual
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd--HH:mm:ss", Locale.getDefault());
-            String currentDate = sdf.format(new Date()); 
+            String currentDate = sdf.format(new Date());
 
-            String nombreArchivo =currentDate+".jpg";
-            Log.println(Log.DEBUG,"hola","Se ha guardado la imagen: " + nombreArchivo);
-            File file = new File(getFilesDir(),nombreArchivo );
-            OutputStream outputStream = new FileOutputStream(file);
+            // Ruta de almacenamiento interno para imágenes
+            File internalDir = getFilesDir(); // Directorio privado de la app
+            if (!internalDir.exists()) {
+                internalDir.mkdirs(); // Crear la carpeta si no existe
+            }
 
-            // Comprimir y guardar la imagen en el archivo
+            // Crear archivo con nombre basado en la fecha
+            String imageName = currentDate + ".jpg";
+            File imageFile = new File(internalDir, imageName);
+
+            // Guardar la imagen en el archivo
+            OutputStream outputStream = new FileOutputStream(imageFile);
             imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
 
             // Cerrar los streams
             inputStream.close();
             outputStream.close();
 
-            Toast.makeText(this, "Imagen guardada exitosamente en " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+            // Mostrar mensaje de éxito
+            Toast.makeText(this, "Imagen guardada exitosamente en " + imageFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+
+            // Mostrar la imagen en el ImageView
+            imageView.setImageURI(Uri.fromFile(imageFile));
+
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Error al guardar la imagen", Toast.LENGTH_SHORT).show();
@@ -136,30 +154,45 @@ public class CameraActivity extends AppCompatActivity {
         finish();
     }
 
+    //Método para corregir la orientación de la imagen usando EXIF
+    private Bitmap correctOrientation(Bitmap bitmap, Uri uri) {
+        try {
+            ExifInterface exif = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                exif = new ExifInterface(getContentResolver().openInputStream(uri));
+            }
 
+            //Obtener el valor de la orientación
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
 
+            //Si la orientación es diferente a la normal, rotar la imagen
+            Matrix matrix = new Matrix();
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    matrix.postRotate(90);
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    matrix.postRotate(180);
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    matrix.postRotate(270);
+                    break;
+                case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                    matrix.postScale(-1, 1);
+                    break;
+                case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                    matrix.postScale(1, -1);
+                    break;
+            }
 
-
-    //METODO PARA GUARDAR LA IMAGEN
-    private void saveImageAndReturn2() {
-        // Ruta en el almacenamiento interno específico de la aplicación
-        File directory = new File(getFilesDir(), "imagenes");
-        if (!directory.exists()) {
-            directory.mkdirs(); // Crea la carpeta si no existe
-        }
-
-        // Nombre y ubicación del archivo
-        File file = new File(directory, "imagen_capturada.jpg");
-        try (FileOutputStream fos = new FileOutputStream(file)) {
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-            Toast.makeText(this, "Imagen guardada exitosamente en " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+            //Devolver la imagen rotada
+            return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(this, "Error al guardar la imagen", Toast.LENGTH_SHORT).show();
+            return bitmap;  //Si hay un error, devolver la imagen original
         }
-
-        // Finaliza esta actividad y regresa a MainActivity
-        finish();
     }
+
+
 
 }
