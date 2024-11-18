@@ -1,6 +1,9 @@
 package com.example.jesusysusappostoles_proyecto1evaluacion;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -31,10 +34,13 @@ public class GaleriaActivity extends AppCompatActivity {
         imageFiles = loadImagesFromStorage();  //Cargar las imágenes guardadas
 
         if (imageFiles.isEmpty()) {
-            Toast.makeText(this, "No hay imágenes guardadas", Toast.LENGTH_SHORT).show();
-        } else {
-            imageAdapter = new ImageAdapter(this, imageFiles);
-            recyclerView.setAdapter(imageAdapter);  //Asignar el adaptador al RecyclerView
+            TextView emptyMessage = new TextView(this);
+            emptyMessage.setText("No hay ninguna imagen");
+            emptyMessage.setTextColor(Color.LTGRAY);
+            emptyMessage.setGravity(Gravity.CENTER);
+            emptyMessage.setTextSize(24);
+            
+            setContentView(emptyMessage);
         }
     }
 
