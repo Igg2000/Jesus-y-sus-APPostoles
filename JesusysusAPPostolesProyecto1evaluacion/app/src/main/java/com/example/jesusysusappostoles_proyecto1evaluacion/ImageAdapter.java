@@ -1,6 +1,7 @@
 package com.example.jesusysusappostoles_proyecto1evaluacion;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -35,8 +36,16 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         File imageFile = imageFiles.get(position);
         Bitmap thumbnail = decodeSampledBitmapFromFile(imageFile.getAbsolutePath(), 200, 200);
-        holder.imageView.setImageBitmap(thumbnail); // Cargar la miniatura
+        holder.imageView.setImageBitmap(thumbnail);
+
+        // Configurar el clic para abrir la imagen en pantalla completa
+        holder.imageView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, FullScreenImageActivity.class);
+            intent.putExtra("image_path", imageFile.getAbsolutePath()); // Pasar la ruta de la imagen
+            context.startActivity(intent);
+        });
     }
+
 
     @Override
     public int getItemCount() {
