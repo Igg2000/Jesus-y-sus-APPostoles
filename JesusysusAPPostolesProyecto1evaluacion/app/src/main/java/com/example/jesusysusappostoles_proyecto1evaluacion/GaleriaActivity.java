@@ -27,11 +27,9 @@ public class GaleriaActivity extends AppCompatActivity {
         setContentView(R.layout.galeriaactivity);
 
         recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
 
-        //Usar GridLayoutManager para mostrar las imágenes en una cuadrícula
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3)); // 3 columnas
-
-        imageFiles = loadImagesFromStorage();  //Cargar las imágenes guardadas
+        imageFiles = loadImagesFromStorage();
 
         if (imageFiles.isEmpty()) {
             TextView emptyMessage = new TextView(this);
@@ -39,10 +37,13 @@ public class GaleriaActivity extends AppCompatActivity {
             emptyMessage.setTextColor(Color.LTGRAY);
             emptyMessage.setGravity(Gravity.CENTER);
             emptyMessage.setTextSize(24);
-            
             setContentView(emptyMessage);
+        } else {
+            imageAdapter = new ImageAdapter(this, imageFiles);
+            recyclerView.setAdapter(imageAdapter);
         }
     }
+
 
     //Método para cargar las imágenes desde el almacenamiento interno de la aplicación
     private List<File> loadImagesFromStorage() {
