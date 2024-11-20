@@ -1,5 +1,6 @@
 package com.example.jesusysusappostoles_proyecto1evaluacion;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -17,9 +18,12 @@ import java.util.List;
 
 public class GaleriaActivity extends AppCompatActivity {
 
+    public static final int FULL_SCREEN_IMAGE_REQUEST_CODE = 1;
     private RecyclerView recyclerView;
     private ImageAdapter imageAdapter;
     private List<File> imageFiles;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,5 +67,36 @@ public class GaleriaActivity extends AppCompatActivity {
         }
 
         return imageList;
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == FULL_SCREEN_IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
+            String deletedImagePath = data.getStringExtra("deleted_image_path");
+            if (deletedImagePath != null) {
+                // Eliminar la imagen de la lista
+                for (int i = 0; i < imageFiles.size(); i++) {
+                    if (imageFiles.get(i).getAbsolutePath().equals(deletedImagePath)) {
+                        imageFiles.remove(i);
+                        imageAdapter.notifyItemRemoved(i);
+                        break;
+                    }
+                }
+
+                // Verificar si la lista está vacía
+                if (imageFiles.isEmpty()) {
+                    TextView emptyMessage = new TextView(this);
+                    emptyMessage.setText("No hay ninguna imagen");
+                    emptyMessage.setTextColor(Color.LTGRAY);
+                    emptyMessage.setGravity(Gravity.CENTER);
+                    emptyMessage.setTextSize(24);
+
+                    setContentView(emptyMessage);
+                }
+            }
+        }
     }
 }
