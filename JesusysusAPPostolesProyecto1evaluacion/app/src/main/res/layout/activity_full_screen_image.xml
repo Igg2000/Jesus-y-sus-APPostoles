@@ -1,22 +1,38 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/colorFondo">
 
+    <!-- Imagen con zoom -->
     <com.example.jesusysusappostoles_proyecto1evaluacion.ZoomableImageView
         android:id="@+id/full_screen_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/full_screen_image"
         android:scaleType="fitCenter"
-        android:contentDescription="@string/full_screen_image" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
+    <!-- Botón de eliminar -->
     <Button
         android:id="@+id/delete_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="16dp"
-        android:backgroundTint="@color/colorBoton"
-        android:text="Borrar"
-        android:textColor="@color/colorIcono" />
-</RelativeLayout>
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/colorFondo"
+        android:gravity="center"
+        android:text="Eliminar Imagen"
+        android:textColor="@color/colorTexto"
+        app:icon="@drawable/papelera"
+        app:iconPadding="8dp"
+        app:iconSize="50dp"
+        app:iconTint="@color/colorIcono"
+        app:iconTintMode="src_atop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
