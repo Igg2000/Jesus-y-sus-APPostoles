@@ -8,9 +8,16 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <!--    Tema Rosa
     <color name="colorFondo">#F0F5F9</color>
     <color name="colorIcono">#1E2022</color>
     <color name="colorTexto">#52616B</color>
     <color name="colorBoton">#cea2e4</color>
+    -->
+
+    <color name="colorFondo">#F0F5F9</color>
+    <color name="colorIcono">#1E2022</color>
+    <color name="colorTexto">#52616B</color>
+    <color name="colorBoton">#C9D6DF</color>
 
 </resources>

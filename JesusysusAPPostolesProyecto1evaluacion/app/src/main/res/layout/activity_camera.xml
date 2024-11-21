@@ -23,11 +23,13 @@
         android:id="@+id/save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/colorBoton"
         android:text="Guardar Imagen"
-        app:layout_constraintTop_toBottomOf="@id/captured_image"
+        android:textColor="@color/colorTexto"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/captured_image" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

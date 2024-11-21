@@ -8,15 +8,18 @@
 
     <EditText
         android:id="@+id/cityEditText"
-        android:layout_width="278dp"
+        android:layout_width="0dp"
         android:layout_height="43dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/rounded_edittext"
+        android:backgroundTint="@color/colorBoton"
         android:hint="Ingrese el nombre de la ciudad"
         android:inputType="text"
+        android:maxWidth="278dp"
         android:textAlignment="center"
+        android:textColor="@color/colorTexto"
         android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@id/searchButton"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,10 +29,13 @@
         android:id="@+id/searchButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
+        android:layout_marginTop="6dp"
         android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/colorBoton"
         android:text="Buscar"
+        android:textColor="@color/colorTexto"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/cityEditText"
-        app:layout_constraintTop_toTopOf="@id/cityEditText" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

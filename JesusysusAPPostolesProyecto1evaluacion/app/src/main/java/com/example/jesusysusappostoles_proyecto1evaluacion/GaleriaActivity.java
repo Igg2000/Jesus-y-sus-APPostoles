@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GaleriaActivity extends AppCompatActivity {
@@ -65,6 +66,9 @@ public class GaleriaActivity extends AppCompatActivity {
                 }
             }
         }
+
+        // Ordenar las imágenes por nombre
+        Collections.sort(imageList, (file1, file2) -> file1.getName().compareToIgnoreCase(file2.getName()));
 
         return imageList;
     }
