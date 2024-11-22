@@ -144,6 +144,7 @@ public class CameraActivity extends AppCompatActivity {
 
             // Mostrar la imagen en el ImageView
             imageView.setImageURI(Uri.fromFile(imageFile));
+            imageView.setContentDescription("Imagen Capturada por la camara");
 
         } catch (IOException e) {
             e.printStackTrace();

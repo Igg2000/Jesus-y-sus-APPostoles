@@ -34,6 +34,19 @@ public class GaleriaActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
 
+
+
+        // Obtener el espaciado definido en dimens.xml
+        int spacing = getResources().getDimensionPixelSize(R.dimen.grid_spacing);
+
+        // Añadir el espaciado al RecyclerView
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(spacing));
+
+        imageFiles = loadImagesFromStorage();
+        imageAdapter = new ImageAdapter(this, imageFiles);
+        recyclerView.setAdapter(imageAdapter);
+
+
         imageFiles = loadImagesFromStorage();
 
         if (imageFiles.isEmpty()) {
