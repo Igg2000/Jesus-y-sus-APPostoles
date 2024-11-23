@@ -85,9 +85,9 @@
                 android:layout_gravity="left|center_vertical"
                 android:foregroundTintMode="add"
                 android:paddingLeft="10dp"
-                android:src="@drawable/imagen_movil_giroscopio"
-                app:tint="@color/colorBoton"
-                android:tintMode="multiply" />
+                android:src="@drawable/movil"
+                android:tintMode="multiply"
+                app:tint="@color/colorBoton" />
 
             <TextView
                 android:id="@+id/txtX"

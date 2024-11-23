@@ -97,7 +97,7 @@ public class GiroscopioActivity extends AppCompatActivity implements SensorEvent
 
     private void rotateImageView() {
         // Calcular los ángulos de rotación en grados alrededor de los ejes X, Y y Z
-        final float rotationX = totalX * (180 / (float) Math.PI); // Convertimos la rotación en radianes a grados (eje X)
+        final float rotationX = -totalX * (180 / (float) Math.PI); // Convertimos la rotación en radianes a grados (eje X)
         final float rotationY = totalY * (180 / (float) Math.PI); // Convertimos la rotación en radianes a grados (eje Y)
         final float rotationZ = totalZ * (180 / (float) Math.PI); // Convertimos la rotación en radianes a grados (eje Z)
 
