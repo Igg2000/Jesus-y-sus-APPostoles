@@ -36,7 +36,7 @@ public class FullScreenImageActivity extends AppCompatActivity {
                     .addTransition(new ChangeBounds())
                     .addTransition(new ChangeTransform())
                     .addTransition(new ChangeImageTransform())
-                    .setDuration(400)
+                    .setDuration(300)
                     .setInterpolator(new FastOutSlowInInterpolator());
 
             getWindow().setSharedElementEnterTransition(transitionSet);
