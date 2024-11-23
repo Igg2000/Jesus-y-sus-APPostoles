@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
@@ -45,14 +46,23 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         Bitmap thumbnail = decodeSampledBitmapFromFile(imageFile.getAbsolutePath(), 200, 200);
         holder.imageView.setImageBitmap(thumbnail);
 
-        // Suponiendo que esto ocurre cuando el usuario hace clic en una imagen
+        // Asignar un nombre único para la transición
+        holder.imageView.setTransitionName("image_" + position);
+
+        // Configurar el clic para abrir la imagen con animación
         holder.imageView.setOnClickListener(v -> {
             Intent intent = new Intent(context, FullScreenImageActivity.class);
-            intent.putExtra("image_path", imageFile.getAbsolutePath()); // Pasar la ruta de la imagen
-            ((AppCompatActivity) context).startActivityForResult(intent, GaleriaActivity.FULL_SCREEN_IMAGE_REQUEST_CODE);
-        });
+            intent.putExtra("image_path", imageFile.getAbsolutePath());
+            intent.putExtra("transition_name", holder.imageView.getTransitionName());
 
+            // Configurar la animación de transición compartida
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    (AppCompatActivity) context, holder.imageView, holder.imageView.getTransitionName()
+            );
+            ((AppCompatActivity) context).startActivityForResult(intent, FULL_SCREEN_IMAGE_REQUEST_CODE, options.toBundle());
+        });
     }
+
 
 
 

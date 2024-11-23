@@ -94,26 +94,49 @@ public class GaleriaActivity extends AppCompatActivity {
         if (requestCode == FULL_SCREEN_IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
             String deletedImagePath = data.getStringExtra("deleted_image_path");
             if (deletedImagePath != null) {
-                // Eliminar la imagen de la lista
                 for (int i = 0; i < imageFiles.size(); i++) {
                     if (imageFiles.get(i).getAbsolutePath().equals(deletedImagePath)) {
-                        imageFiles.remove(i);
-                        imageAdapter.notifyItemRemoved(i);
+                        int finalI = i;
+
+                        // Animación antes de eliminar
+                        RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(i);
+                        if (viewHolder != null) {
+                            viewHolder.itemView.animate()
+                                    .translationX(recyclerView.getWidth()) // Mover fuera de pantalla
+                                    .alpha(0f) // Desvanecer
+                                    .setDuration(300) // Duración de la animación
+                                    .withEndAction(() -> {
+                                        imageFiles.remove(finalI);
+                                        imageAdapter.notifyItemRemoved(finalI);
+
+                                        // Verificar si la lista está vacía
+                                        if (imageFiles.isEmpty()) {
+                                            TextView emptyMessage = new TextView(this);
+                                            emptyMessage.setText("No hay ninguna imagen");
+                                            emptyMessage.setTextColor(Color.LTGRAY);
+                                            emptyMessage.setGravity(Gravity.CENTER);
+                                            emptyMessage.setTextSize(24);
+                                            setContentView(emptyMessage);
+                                        }
+                                    }).start();
+                        } else {
+                            imageFiles.remove(i);
+                            imageAdapter.notifyItemRemoved(i);
+
+                            if (imageFiles.isEmpty()) {
+                                TextView emptyMessage = new TextView(this);
+                                emptyMessage.setText("No hay ninguna imagen");
+                                emptyMessage.setTextColor(Color.LTGRAY);
+                                emptyMessage.setGravity(Gravity.CENTER);
+                                emptyMessage.setTextSize(24);
+                                setContentView(emptyMessage);
+                            }
+                        }
                         break;
                     }
-                }
-
-                // Verificar si la lista está vacía
-                if (imageFiles.isEmpty()) {
-                    TextView emptyMessage = new TextView(this);
-                    emptyMessage.setText("No hay ninguna imagen");
-                    emptyMessage.setTextColor(Color.LTGRAY);
-                    emptyMessage.setGravity(Gravity.CENTER);
-                    emptyMessage.setTextSize(24);
-
-                    setContentView(emptyMessage);
                 }
             }
         }
     }
+
 }
